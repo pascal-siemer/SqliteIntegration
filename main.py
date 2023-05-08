@@ -28,6 +28,9 @@ def show(cursor, query):
 
 with sqlite3.connect("databaseStringsNew.sqlite3") as connection:
     cursor = connection.cursor()
+
+    cursor.execute(queries.enable_foreign_keys)
+
     cursor.execute(queries.create_person)
     cursor.execute(queries.create_gebaeude)
     cursor.execute(queries.create_merkmal)

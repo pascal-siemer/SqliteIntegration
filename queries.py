@@ -31,21 +31,17 @@ create_raum = """
     create table if not exists Raum (
         RaumID integer primary key autoincrement,
         Typ text,
-        GebID integer,
-        MerkID integer,
-        foreign key(GebID) references Gebaeude(GebID),
-        foreign key(MerkID) references Merkmal(MerkID)
+        GebID integer references Gebaeude(GebID) on delete cascade,
+        MerkID integer references Merkmal(MerkID) on delete cascade
     )
     """
 
 create_zugang = """
     create table if not exists Zugang (
-        RaumID integer,
-        PersID integer,
+        RaumID integer references Raum(RaumID) on delete cascade,
+        PersID integer references Person(PersID) on delete cascade,
         ZeitVon text,
-        ZeitBis text,
-        foreign key(RaumID) references Raum(RaumID),
-        foreign key(PersID) references Person(PersID)
+        ZeitBis text
     )
     """
 
@@ -60,3 +56,5 @@ show_zugang = "select * from Zugang"
 show_raum = "select * from Raum"
 show_gebaeude = "select * from Gebaeude"
 show_merkmal = "select * from Merkmal"
+
+enable_foreign_keys = "PRAGMA foreign_keys = TRUE;"
