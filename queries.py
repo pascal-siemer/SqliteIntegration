@@ -1,6 +1,6 @@
 create_person = """
     create table if not exists Person (
-        PersID TEXT,
+        PersID integer primary key autoincrement,
         Nachname text,
         Vorname text,
         Strasse text,
@@ -9,27 +9,9 @@ create_person = """
     )
     """
 
-create_zugang = """
-    create table if not exists Zugang (
-        RaumID text,
-        PersID text,
-        ZeitVon text,
-        ZeitBis text
-    )
-    """
-
-create_raum = """
-    create table if not exists Raum (
-        RaumID text,
-        Typ text,
-        GebID text,
-        MerkID text
-    )
-    """
-
 create_gebaeude = """
     create table if not exists Gebaeude (
-        GebID text,
+        GebID integer primary key autoincrement,
         Bezeichnung text,
         Strasse text,
         Plz text,
@@ -39,8 +21,31 @@ create_gebaeude = """
 
 create_merkmal = """
     create table if not exists Merkmal (
-        MerkID text,
+        MerkID integer primary key autoincrement,
         Merkmal text
+    )
+    """
+
+
+create_raum = """
+    create table if not exists Raum (
+        RaumID integer primary key autoincrement,
+        Typ text,
+        GebID integer,
+        MerkID integer,
+        foreign key(GebID) references Gebaeude(GebID),
+        foreign key(MerkID) references Merkmal(MerkID)
+    )
+    """
+
+create_zugang = """
+    create table if not exists Zugang (
+        RaumID integer,
+        PersID integer,
+        ZeitVon text,
+        ZeitBis text,
+        foreign key(RaumID) references Raum(RaumID),
+        foreign key(PersID) references Person(PersID)
     )
     """
 
